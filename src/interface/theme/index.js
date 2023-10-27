@@ -1,12 +1,21 @@
 
 import express from 'express'
-import app from "../../../app.js";
+import {select} from '../../../utils/connection/mysql.js';
 
 const router = express.Router();
 
+const sql = 'SELECT * FROM gather_name'
+
 router.route('/theme')
-      .get(function (req, res) {
-        res.json({ theme: 'white'})
+      .get(  (req, res,c) => {
+        const valuse =  select(sql, function (err, rows) {
+          if (!err) {
+            res.json(rows)
+          }
+          else {
+            console.log(err);
+          }
+       });
       });
 
 export default router
