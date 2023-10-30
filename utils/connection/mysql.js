@@ -12,7 +12,7 @@ const select =  (sql, callback) => {
     host: 'localhost',
     user: 'root',
     password: 'nishishabi1999',
-    database: 'Gather'
+    database: 'gather_data'
   })
 
 
