@@ -7,6 +7,7 @@ import app from '../../app.js';
 import useArrToObj from './useArrToObj.js';
 import useRouter from './useRouter.js';
 
+// const defaultPath = {}
 const useMiddleware = () => {
   const dirname = app.get('path')
   app.use(useArrToObj);
@@ -38,6 +39,19 @@ const useMiddleware = () => {
     },
     rolling: true, //用户最后一次请求开始计算，重新刷新session的有效期，类似淘宝中午不吃饭一直刷，1小时不过期
   }))
+
+  app.use((req, res, next) => {    
+    const accessToken = req.headers.token;
+    const nameToken = req.headers.tokenname;
+
+    if((!req.session?.[nameToken] || !req.session?.[nameToken]?.isLogin) && req.url !== '/gather/login' && req.url !== '/gather/register') {
+      res.header("Access-Token", undefined);
+      req.session[`${nameToken}`] = { isLogin: false };
+    } else {
+      res.header("Access-Token", accessToken);
+    }
+    next();
+  });
 
   useRouter();
 }

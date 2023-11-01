@@ -6,7 +6,13 @@ const formatPath = (res) => {
 
     return {
       ...item,
-      children,
+      user: undefined,
+      grade: undefined,
+      children: children.map((child) => ({
+        ...child,
+        user: undefined,
+        grade: undefined,
+      })),
     }
   })
 }

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.use('/login', (req, res, next) => {
   const value = req.body
-  console.log(value, req.url);
+
   const sql = `SELECT * FROM user WHERE username='${value.username}'`;
   connect(sql).then((data) => {
 
@@ -22,12 +22,22 @@ router.use('/login', (req, res, next) => {
       const password = decrypt(buffer);
 
       if (password === value.password) {
+        const username = value.username;
+
+        req.session[`${username}`] = {
+          username,
+          id: `${username}${data[0].password_encrypted}`,
+          isLogin: true,  
+          accessToken: `${username}${data[0].password_encrypted}`, 
+          url: req.headers.referer 
+        };
+        res.header("Access-Token", `${username}${data[0].password_encrypted}`);
         next()
       } else {
-        res.json({ code: 100, message: '密码错误!', data: null })
+        res.json({ code: 101, message: '密码错误!', data: null })
       }
     } else {
-      res.json({ code: 100, message: '用户名或密码错误!', data: null })
+      res.json({ code: 102, message: '用户名或密码错误!', data: null })
     }
   })
   .catch((err) => {
@@ -36,15 +46,11 @@ router.use('/login', (req, res, next) => {
 })
 
 router.use('/login', (req, res, next) => {
-  const username = req.body.username
-  req.session[`${username}`] = { username, isLogin: true, url: req.headers.referer  };
-  req.sessionID = username
   next();
 })
 
 router.post('/login', (req, res) => {
-  
-  res.json({ code: 200, message: 'success', data: null });
+  res.json({ code: 200, message: 'success', data: { username: req.body.username }});
 })
 
 export default router;

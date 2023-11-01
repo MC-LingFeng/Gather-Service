@@ -16,7 +16,7 @@ router.use('/register', (req, res, next) => {
         nameList.push(row.username)
       })
       if (nameList.includes(body.username)){
-        res.json({ code: 201, message: '名字重复!', data: body.username });
+        res.json({ code: 201, message: '用户名重复!', data: body.username });
       } else {
         next();
       }
@@ -37,7 +37,11 @@ router.post('/register', async (req, res) => {
 
   connection(sql)
   .then(() => {
-    res.json({ code: 200, message: 'success', data: null });
+    const username = body.username
+    req.session[`${username}`] = { username, isLogin: true, url: req.headers.referer, id: `${username}${stringEncrypt[0]}`, accessToken: `${username}${stringEncrypt[0]}`};
+    res.header("Access-Token", `${username}${stringEncrypt[0]}`);
+   
+    res.json({ code: 200, message: 'success', data: { username: username }});
   })
   .catch((err) => {
     console.log(err);
