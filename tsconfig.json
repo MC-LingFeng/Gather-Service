@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "NodeNext",
+    "lib": [
+      "esnext",
+      "DOM"
+    ],
+    "allowJs": true,
+    // "skipLibCheck": true,
+    "moduleResolution": "NodeNext",
+    "importHelpers": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+    }
+  },
+}
