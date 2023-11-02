@@ -1,7 +1,7 @@
 // export { default as useArrToObj }from './useArrToObj'
 import express from 'express';
 import bodyParse from 'body-parser'
-import session from 'express-session'
+import session from 'cookie-session'
 
 import app from '../../app.js';
 import useArrToObj from './useArrToObj.js';

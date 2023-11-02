@@ -1,0 +1,8 @@
+/build/
+/config/
+/dist/
+# /*.js
+/public/
+/node_modules/
+# dynamic import bug
+# /src/config/routes.js
