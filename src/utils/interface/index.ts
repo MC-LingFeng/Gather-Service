@@ -1,4 +1,4 @@
-import InterfaceCreate from './InterfaceCreate.js';
+import InterfaceCreate from './InterfaceCreate';
 
 const createInterface = ({
   name,

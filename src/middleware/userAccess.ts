@@ -1,5 +1,5 @@
 
-const userAccess = (name, router, value, ) => {
+const userAccess = (name, router, value) => {
   router.use(name, (req, res, next) => {
     const accessToken = req.headers.token;
     const nameToken = req.headers.tokenname;
@@ -9,7 +9,7 @@ const userAccess = (name, router, value, ) => {
     } else {
       next();
     }
-  })
-}
+  });
+};
 
-export default userAccess
+export default userAccess;

@@ -2,7 +2,7 @@ const formatPath = (res) => {
   const fatherItem = res.filter(item => item.father_path === null);
 
   return fatherItem.map((item) => {
-    const children = res.filter(child => item.path === child.father_path)
+    const children = res.filter(child => item.path === child.father_path);
 
     return {
       ...item,
@@ -11,11 +11,10 @@ const formatPath = (res) => {
       children: children.map((child) => ({
         ...child,
         user: undefined,
-        grade: undefined,
-      })),
-    }
-  })
-}
+        grade: undefined
+      }))
+    };
+  });
+};
 
-
-export default formatPath
+export default formatPath;

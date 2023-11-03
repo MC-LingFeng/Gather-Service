@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "NodeNext",
+    "module": "ESNext",
     "lib": [
       "esnext",
       "DOM"
     ],
     "allowJs": true,
     // "skipLibCheck": true,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node",
     "importHelpers": true,
     "noEmit": true,
     "esModuleInterop": true,

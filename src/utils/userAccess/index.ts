@@ -3,10 +3,10 @@ const access = (req) => {
   const nameToken = req.headers.tokenname;
 
   if (accessToken === 'undefined' || nameToken === 'undefined' || accessToken === 'null' || nameToken === 'null') {
-    return false
+    return false;
   } else {
-    return true
+    return true;
   }
-}
+};
 
-export default access
+export default access;

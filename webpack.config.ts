@@ -1,64 +1,81 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
-import { CleanWebpackPlugin } from "clean-webpack-plugin"
 
+const path = require('path');
+const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
-import { fileURLToPath } from 'url';
+const { HASH = 'false' } = process.env;
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const { HASH = 'false' } = process.env
-
-const config: webpack.Configuration = {
+const config = {
   target: 'node',
   mode: 'production',
   entry: './index.js',
   node: {
     global: true,
     __filename: true,
-    __dirname: true,
+    __dirname: true
   },
   optimization: {
-    minimize: false
+    minimize: false,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: true,
+          },
+          output: {
+            comments: true,
+          }
+        },
+        extractComments: false,
+      }),
+    ],
   },
   module: {
     rules: [
       {
         test: /\.ts?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true,
+          },
+        },
         exclude: /node_modules/,
-      },
-    ],
+        
+      }
+    ]
   },
+ 
   output: {
     publicPath: './',
     path: path.join(__dirname, 'dist'),
     // filename: 'index.[contenthash].js',
-    filename: HASH === 'false'? 'index.cjs' :'[name].[contenthash:8].cjs',
+    filename: HASH === 'false' ? 'index.cjs' : '[name].[contenthash:8].cjs',
     chunkFilename: '[name].[contenthash:8].async.cjs',
     pathinfo: false,
     assetModuleFilename: 'static/[name].[hash:8][ext]',
     hashFunction: 'xxhash64',
-    clean: true,
+    clean: true
   },
   watchOptions: {
-    ignored: '**/node_modules',
+    ignored: '**/node_modules'
   },
   resolve: {
     symlinks: true,
     alias: {
-      "@": __dirname + '/src'
+      '@': path.join(__dirname, '/src')
     },
     extensions: [
-      '.ts',  '.js', 
-      '.mjs',  '.cjs',
+      '.ts', '.js',
+      '.mjs', '.cjs',
       '.json', '.wasm'
     ],
-    modules: [ 'node_modules' ],
+    modules: ['node_modules']
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin()
   ]
-}
+};
 
-export default config;
+module.exports = config;

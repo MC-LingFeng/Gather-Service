@@ -1,4 +1,4 @@
-import express from "express";
+import express from 'express';
 
 export default class InterfaceCreate {
   constructor(props) {
@@ -7,25 +7,24 @@ export default class InterfaceCreate {
       name: props?.name,
       header: props?.header,
       app: props?.app ?? express()
-    }
+    };
   }
-  getSate(){
+  getSate() {
     return this.state;
   }
-  getValue(value){
-    return this.state[value]
+  getValue(value) {
+    return this.state[value];
   }
-  callback(callback, req, res){
-    if (req && res){
+  callback(callback, req, res) {
+    if (req && res) {
       Object.keys(this.state.header).forEach(item => {
-        res.setHeader(item, this.state.header[item])
-      })
+        res.setHeader(item, this.state.header[item]);
+      });
     }
 
-    if (callback){
-      callback()
+    if (callback) {
+      callback();
     }
   }
-
 }
 

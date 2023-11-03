@@ -1,7 +1,7 @@
-import app, { router,__dirname } from './app.js';
+import app, { router, __dirname } from './app';
 
-import useMiddleware  from './src/middleware/index.js';
+import useMiddleware from './src/middleware/index';
 
-useMiddleware()
+useMiddleware();
 
 app.listen(8090);
