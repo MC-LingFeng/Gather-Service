@@ -1,4 +1,5 @@
-const formatPath = (res) => {
+import { RouteAndUser } from '../type';
+const formatPath = (res: Array<RouteAndUser>) => {
   const fatherItem = res.filter(item => item.father_path === null);
 
   return fatherItem.map((item) => {

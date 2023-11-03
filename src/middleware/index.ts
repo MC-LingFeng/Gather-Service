@@ -31,20 +31,21 @@ const useMiddleware = () => {
     secret: 'default_user',
     // 设置浏览器端cookie中的sessionId设置名字， 默认connect.sid
     name: 'sessionId',
-    resave: false,
+    maxAge: 1000 * 60 * 60 * 1
+    // resave: false,
     // 在浏览器和服务器连接的第一时间，分配session  给浏览器指定一个cookie
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 1 // 1小时
-    },
-    rolling: true // 用户最后一次请求开始计算，重新刷新session的有效期，类似淘宝中午不吃饭一直刷，1小时不过期
+    // saveUninitialized: false,
+    // cookie: {
+    //   maxAge: 1000 * 60 * 60 * 1 // 1小时
+    // },
+    // rolling: true // 用户最后一次请求开始计算，重新刷新session的有效期，类似淘宝中午不吃饭一直刷，1小时不过期
   }));
 
   app.use((req, res, next) => {
-    const accessToken = req.headers.token;
-    const nameToken = req.headers.tokenname;
+    const accessToken = req.headers.token as string;
+    const nameToken = req.headers.tokenname as string;
 
-    if ((!req.session?.[nameToken] || !req.session?.[nameToken]?.isLogin) && req.url !== '/gather/login' && req.url !== '/gather/register') {
+    if ((!req.session?.[nameToken] || !req.session?.[nameToken]?.isLogin) && req.url !== '/gather/login' && req.url !== '/gather/register' && req.session) {
       res.header('Access-Token', undefined);
       req.session[`${nameToken}`] = { isLogin: false };
     } else {

@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.use('/authority/user', (req, res, next) => {
   const token = req.headers.token;
-  const tokenname = req.headers.tokenname;
   const isHave = utils.isHave(token);
   if (isHave) {
     res.json({ code: 0, data: null, message: '请登录！' });

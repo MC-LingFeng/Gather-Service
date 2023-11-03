@@ -1,4 +1,5 @@
-const access = (req) => {
+
+const access = (req: any) => {
   const accessToken = req.headers.token;
   const nameToken = req.headers.tokenname;
 

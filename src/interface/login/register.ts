@@ -1,17 +1,17 @@
+/*global User */
+
 import express from 'express';
-import _ from 'lodash';
 import connection from '@/utils/connection/index';
-import { decrypt, encryption, bufferToString, stringToBuffer } from '@/utils/ase/index';
+import { encryption, bufferToString } from '@/utils/ase/index';
 
 const router = express.Router();
 
 router.use('/register', (req, res, next) => {
   const sql = 'SELECT username FROM user';
   const body = req.body;
-  connection(sql).then((rows) => {
-    const nameList = [];
-
-    rows.forEach(row => {
+  connection(sql).then((rows: Array<User>) => {
+    const nameList: Array<string> = [];
+    rows.forEach((row) => {
       nameList.push(row.username);
     });
     if (nameList.includes(body.username)) {
@@ -26,7 +26,7 @@ router.use('/register', (req, res, next) => {
     });
 });
 
-router.post('/register', async(req, res) => {
+router.post('/register', (req, res) => {
   const body = req.body;
   const encryptionList = encryption(body.password);
   const stringEncrypt = bufferToString(encryptionList);
@@ -37,8 +37,10 @@ router.post('/register', async(req, res) => {
   connection(sql)
     .then(() => {
       const username = body.username;
-      req.session[`${username}`] = { username, isLogin: true, url: req.headers.referer, id: `${username}${stringEncrypt[0]}`, accessToken: `${username}${stringEncrypt[0]}` };
-      res.header('Access-Token', `${username}${stringEncrypt[0]}`);
+      if (req.session) {
+        req.session[`${username}`] = { username, isLogin: true, url: req.headers.referer, id: `${username}${stringEncrypt[0]}`, accessToken: `${username}${stringEncrypt[0]}` };
+        res.header('Access-Token', `${username}${stringEncrypt[0]}`);
+      }
 
       res.json({ code: 200, message: 'success', data: { username: username }});
     })

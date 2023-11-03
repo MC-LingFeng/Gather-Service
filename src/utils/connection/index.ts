@@ -1,9 +1,11 @@
 
 import mysql from 'mysql';
 
-const select = (sql, callback) => {
+const select = (sql: string) => {
   if (!sql) {
-    return;
+    return new Promise((resolve, reject) => {
+      reject('sql语句为空');
+    });
   }
 
   const pool = mysql.createPool({
@@ -14,7 +16,7 @@ const select = (sql, callback) => {
     database: 'gather_data'
   });
 
-  return new Promise((resolve, reject) => {
+  return new Promise<any>((resolve, reject) => {
     pool.getConnection((err, con) => {
       if (err) {
         reject(err);

@@ -22,16 +22,17 @@ router.use('/login', (req, res, next) => {
 
       if (password === value.password) {
         const username = value.username;
-
-        req.session[`${username}`] = {
-          username,
-          id: `${username}${data[0].password_encrypted}`,
-          isLogin: true,
-          accessToken: `${username}${data[0].password_encrypted}`,
-          url: req.headers.referer
-        };
-        res.header('Access-Token', `${username}${data[0].password_encrypted}`);
-        next();
+        if (req.session) {
+          req.session[`${username}`] = {
+            username,
+            id: `${username}${data[0].password_encrypted}`,
+            isLogin: true,
+            accessToken: `${username}${data[0].password_encrypted}`,
+            url: req.headers.referer
+          };
+          res.header('Access-Token', `${username}${data[0].password_encrypted}`);
+          next();
+        }
       } else {
         res.json({ code: 101, message: '密码错误!', data: null });
       }
