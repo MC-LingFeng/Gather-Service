@@ -3,7 +3,7 @@ import { get as routeGet } from '../interface/routes/index';
 import { login, register } from '../interface/login/index';
 import authority from '../interface/authority/index';
 
-import app from '../../app';
+import app from '../app';
 
 const useRouter = () => {
   app.use('/gather', login);

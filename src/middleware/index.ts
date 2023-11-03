@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParse from 'body-parser';
 import session from 'cookie-session';
 
-import app from '../../app';
+import app from '../app';
 import useArrToObj from './useArrToObj';
 import useRouter from './useRouter';
 

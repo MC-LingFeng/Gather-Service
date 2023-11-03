@@ -1,5 +1,6 @@
 {
-  "compilerOptions": {
+    "include": ["src/**/*"],
+    "compilerOptions": {
     "target": "es5",
     "module": "ESNext",
     "lib": [

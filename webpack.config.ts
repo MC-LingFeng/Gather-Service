@@ -9,7 +9,7 @@ const { HASH = 'false' } = process.env;
 const config = {
   target: 'node',
   mode: 'production',
-  entry: './index.js',
+  entry: './src/index.ts',
   node: {
     global: true,
     __filename: true,
