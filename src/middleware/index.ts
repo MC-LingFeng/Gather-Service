@@ -51,6 +51,7 @@ const useMiddleware = () => {
     } else {
       res.header('Access-Token', accessToken);
     }
+    console.log(req.session);
     next();
   });
 
