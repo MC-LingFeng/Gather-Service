@@ -5,3 +5,9 @@ export interface MessageBody{
   birthday: string,
   msg: string,
 }
+
+export interface ArticleType {
+  type: '散文',
+  value: '状物',
+  name: '',
+}

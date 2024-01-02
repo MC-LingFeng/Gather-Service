@@ -1,12 +1,26 @@
 import express from 'express';
-import { getMessage, getMessageTragic } from './utils';
-import { chatForImg, chatForMsg } from '@/OpenAI';
+import { getMessage, getMessageArticle, getMessageTragic } from './utils';
+import { chatForImg, chatForMsg, chatForMsg4 } from '@/OpenAI';
 
 const router = express.Router();
 
 router.post('/setmessage', (req, res) => {
   const createMessage = getMessage(req.body);
   const values = chatForMsg(createMessage as any);
+
+  values.then((data) => {
+    res.json({ code: 200, message: 'success', data: data?.choices?.map((item) => ({ ...item, message: {
+      role: item.message.role,
+      content: item.message.content?.replace(/\n/g, '<br/>') ?? ''
+    }})) ?? [] });
+  }).catch((err) => {
+    console.log(err, 'Error');
+    res.json({ code: 100, message: 'error', data: [] });
+  });
+});
+router.post('/setmessage/v4', (req, res) => {
+  const createMessage = getMessageArticle(req.body);
+  const values = chatForMsg4(createMessage as any);
 
   values.then((data) => {
     res.json({ code: 200, message: 'success', data: data?.choices?.map((item) => ({ ...item, message: {
