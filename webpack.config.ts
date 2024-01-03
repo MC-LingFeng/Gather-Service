@@ -51,7 +51,7 @@ const config = {
     publicPath: './',
     path: path.join(__dirname, 'dist'),
     // filename: 'index.[contenthash].js',
-    filename: HASH === 'false' ? 'index.cjs' : '[name].[contenthash:8].cjs',
+    filename: HASH === 'false' ? 'index.cjs' : '[name].[contenthash:8].js',
     chunkFilename: '[name].[contenthash:8].async.cjs',
     pathinfo: false,
     assetModuleFilename: 'static/[name].[hash:8][ext]',

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env HASH=\"true\" TS_NODE_PROJECT=\"tsconfig.json\" NODE_OPTIONS=\"--loader=ts-node/esm --trace-warnings\" webpack --mode=production --config webpack.config.ts",
+    "build-nohas": "cross-env HASH=\"true\" TS_NODE_PROJECT=\"tsconfig.json\" NODE_OPTIONS=\"--loader=ts-node/esm --trace-warnings\" webpack --mode=production --config webpack.config.ts",
     "dev": "node dist/index.cjs",
     "start": "cross-env HASH=\"false\" TS_NODE_PROJECT=\"tsconfig.json\" NODE_OPTIONS=\"--loader=ts-node/esm --trace-warnings\" webpack --mode=production --config webpack.config.ts && npm run dev"
   },
