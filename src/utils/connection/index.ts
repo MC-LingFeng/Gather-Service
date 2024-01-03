@@ -1,5 +1,5 @@
 
-import mysql from 'mysql';
+import mysql from 'mysql2';
 
 const select = (sql: string) => {
   if (!sql) {

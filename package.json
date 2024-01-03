@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cross-env HASH=\"true\" TS_NODE_PROJECT=\"tsconfig.json\" NODE_OPTIONS=\"--loader=ts-node/esm --trace-warnings\" webpack --mode=production --config webpack.config.ts",
-    "build-nohas": "cross-env HASH=\"true\" TS_NODE_PROJECT=\"tsconfig.json\" NODE_OPTIONS=\"--loader=ts-node/esm --trace-warnings\" webpack --mode=production --config webpack.config.ts",
     "dev": "node dist/index.cjs",
     "start": "cross-env HASH=\"false\" TS_NODE_PROJECT=\"tsconfig.json\" NODE_OPTIONS=\"--loader=ts-node/esm --trace-warnings\" webpack --mode=production --config webpack.config.ts && npm run dev"
   },
@@ -22,6 +21,7 @@
     "https-proxy-agent": "^7.0.2",
     "lodash": "^4.17.21",
     "mysql": "^2.18.1",
+    "mysql2": "^3.6.5",
     "openai": "^4.24.1",
     "webpack-merge": "^5.10.0"
   },
