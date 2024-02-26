@@ -13,9 +13,9 @@ const useRouter = () => {
 
   app.use('/gather', themeRouter);
   app.use('/gather', routeGet);
-  app.use('/gather', openai);
 
   app.use('/gather', authority);
+  app.use('/gather', openai);
 };
 
 export default useRouter;
