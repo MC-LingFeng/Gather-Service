@@ -4,35 +4,60 @@ import { chatForImg, chatForMsg, chatForMsg4 } from '@/OpenAI';
 import { Readable } from 'stream';
 import expressWs from 'express-ws';
 const router = express.Router();
-const routerws = expressWs(router);
-console.log(routerws);
 
-routerws.app.ws('/setmessage/ws', (req, res) => {
+const getMSG = (ws, value) => {
+  const createMessage = getMessageArticle(value);
+  const values = chatForMsg4(createMessage as any);
+  values.then(async(data) => {
+    console.log('start v4 stream');
+    // 最后，全部完成
+    const decoder = new TextDecoder('utf-8');
+    const stream = data.toReadableStream();
+    const reader = stream.getReader();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        console.log('end v4 stream');
+        ws.send('end');
+        break;
+      }
+      const chunk = decoder.decode(value);
+      const parsedLine = JSON.parse(chunk);
+      const { choices } = parsedLine;
+      if (choices && choices?.length > 0) {
+        const { delta } = choices[0];
+        const { content } = delta;
+        if (content) {
+          ws.send(`${content}`);
+        }
+      }
+    }
+  });
+};
+router.ws('/setmessage/ws', (ws, res) => {
   console.log('connect success');
-  console.log(req);
-  req.on('open', function(e) {
-    req.send('start');
+  // console.log(ws);
+  ws.send('success');
+  ws.on('start', function(e) {
+    ws.send('start');
   });
-  // 使用 ws 的 send 方法向连接另一端的客户端发送数据
-  req.send('data:connect to express server with WebSocket success\n\n');
-
-  // 使用 on 方法监听事件
-  //   message 事件表示从另一段（服务端）传入的数据
-  req.on('message', function(msg) {
-    console.log(`receive message ${msg}`);
-    req.send('default response');
+  ws.on('message', function(msg) {
+    const value = JSON.parse(msg.toString());
+    // console.log(value);
+    if (value.start === 'pase') {
+      getMSG(ws, value);
+    }
+    // ws.send(`收到客户端的消息为：${msg}，再返回去`);
   });
 
-  // 设置定时发送消息
-  let timer = setInterval(() => {
-    req.send(`interval message ${new Date()}`);
-  }, 2000);
+  // // 使用定时器不停的向客户端推动消息
+  // let timer = setInterval(() => {
+  //   ws.send(`服务端定时推送消息: 1`);
+  // }, 1000);
 
-  // close 事件表示客户端断开连接时执行的回调函数
-  req.on('close', function(e) {
-    console.log('close connection');
-    clearInterval(timer);
-    timer = undefined;
+  ws.on('close', function(e) {
+    ws.send('close');
   });
 });
 
